@@ -31,50 +31,40 @@ bst_t *minValueNode(bst_t *node)
 bst_t *bst_remove(bst_t *root, int value)
 {
 	bst_t *temp, *parent;
-	if (root == NULL)
-		return NULL;
 
+	if (root == NULL)
+		return (NULL);
 	if (value < root->n)
 		root->left = bst_remove(root->left, value);
 	else if (value > root->n)
 		root->right = bst_remove(root->right, value);
-	else {
-		if (root->left == NULL && root->right == NULL) {
+	else
+	{
+		if (root->left == NULL && root->right == NULL)
+		{
 			free(root);
-			return NULL;
+			return (NULL);
 		}
-
-		if (root->left == NULL) {
+		if (root->left == NULL)
 			temp = root->right;
-		}
-		else if (root->right == NULL) {
+		else if (root->right == NULL)
 			temp = root->left;
-		}
-		else {
+		else
+		{
 			temp = minValueNode(root->right);
 			root->n = temp->n;
 			root->right = bst_remove(root->right, temp->n);
 			if (root->right != NULL)
 				root->right->parent = root;
-			return root;
+			return (root);
 		}
-
 		parent = root->parent;
-		if (parent != NULL) {
-			if (root == parent->left) {
-				parent->left = temp;
-			}
-			else {
-				parent->right = temp;
-			}
-		}
-
-		if (temp != NULL) {
+		if (parent != NULL)
+			temp = parent->left ? root == parent->left : parent->right;
+		if (temp != NULL)
 			temp->parent = parent;
-		}
 		free(root);
-		return temp;
+		return (temp);
 	}
-
-	return root;
+	return (root);
 }
