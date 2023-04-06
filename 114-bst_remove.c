@@ -51,6 +51,14 @@ bst_t *bst_remove(bst_t *root, int value)
 		else if (root->left == NULL)
 		{
 			temp = root->right;
+			if (root->parent != NULL)
+			{
+				if (root->parent->left == root)
+				root->parent->left = temp;
+				else
+				root->parent->right = temp;
+			}
+			temp->parent = root->parent;
 			free(root);
 			return (temp);
 		}
@@ -65,6 +73,8 @@ bst_t *bst_remove(bst_t *root, int value)
 			temp = minValueNode(root->right);
 			root->n = temp->n;
 			root->right = bst_remove(root->right, temp->n);
+			if (root->right != NULL)
+				root->right->parent = root;
 		}
 	}
 	return (root);
