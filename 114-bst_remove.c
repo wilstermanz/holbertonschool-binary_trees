@@ -60,7 +60,10 @@ bst_t *bst_remove(bst_t *root, int value)
 		}
 		parent = root->parent;
 		if (parent != NULL)
-			temp = parent->left ? root == parent->left : parent->right;
+		{
+			(parent != NULL) ? ((root == parent->left) ?
+			(parent->left = temp) : (parent->right = temp)) : 0;
+		}
 		if (temp != NULL)
 			temp->parent = parent;
 		free(root);
